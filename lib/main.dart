@@ -94,8 +94,8 @@ class _Grid extends State<Grid> {
                           child: Text('タグ'),
                         ),
                         Container(
-                          child: lists()
-                        )
+                          child: lists(document)
+                        ),
                       ]
                         //lists(document)
                   ),
@@ -116,42 +116,37 @@ class _Grid extends State<Grid> {
     });
   }
 
-  Widget lists(){
-    Firestore.instance.collection('datas').snapshots().listen((data){
-      list = data.documents.toList()[i].data['tags'].toList();
-      print(list);
-    });
-    i++;
-    switch (list.length){
+  Widget lists(DocumentSnapshot document){
+    switch (document['tags'].length){
       case 0:
         return Text("タグが指定されていません");
         break;
       case 1:
-        return Card(child: Text(list[0]));
+        return Card(child: Text(document['tags'][0]));
         break;
       case 2:
         return Card(child: Row(
           children: <Widget>[
-            Text(list[0]),
-            Text(list[1]),
+            Text(document['tags'][0]),
+            Text(document['tags'][1]),
           ],
         ),);
         break;
       case 3:
         return Card(child: Row(
           children: <Widget>[
-            Text(list[0]),
-            Text(list[1]),
-            Text(list[2])
+            Text(document['tags'][0]),
+            Text(document['tags'][1]),
+            Text(document['tags'][2])
           ],
         ),);
         break;
       default:
         return Card(child: Row(
           children: <Widget>[
-            Text(list[0]),
-            Text(list[1]),
-            Text("+" +(list.length - 2).toString())
+            Text(document['tags'][0]),
+            Text(document['tags'][1]),
+            Text("+" +(document['tags'].length - 2).toString())
           ],
         ),);
         break;
