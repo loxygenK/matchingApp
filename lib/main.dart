@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'send.dart';
 
 void main() => runApp(MyApp());
 
@@ -13,6 +14,15 @@ class MyApp extends StatelessWidget{
           title: Text("マッチングアプリ(仮)"),
         ),
         body: BaseView(),
+        floatingActionButton: FloatingActionButton(onPressed: () {
+      Navigator.push(context,MaterialPageRoute(
+        builder: (context){
+          return SendDataView();
+        }
+      ));
+    },
+
+      ),
       )
     );
   }
