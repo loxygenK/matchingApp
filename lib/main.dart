@@ -4,30 +4,35 @@ import 'send.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget{
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "マッチングアプリ(仮)",
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("マッチングアプリ(仮)"),
-        ),
-        body: BaseView(),
-        floatingActionButton: FloatingActionButton(onPressed: () {
-      Navigator.push(context,MaterialPageRoute(
-        builder: (context){
-          return SendDataView();
-        }
-      ));
-    },
-
-      ),
-      )
+        title: "マッチングアプリ(仮)",
+        home: HomeView(),
     );
   }
 }
-//TODO make BaseVIew with StatelessWidget
+class HomeView extends StatelessWidget{
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("マッチングアプリ(仮)"),
+      ),
+      body: BaseView(),
+      floatingActionButton: FloatingActionButton(onPressed: () {
+        Navigator.push(context, MaterialPageRoute(
+            builder: (BuildContext context) {
+              return SendDataView();
+            }
+        ));
+      },
+
+      ),
+    );
+  }
+}
 class BaseView extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
@@ -127,10 +132,10 @@ class _Grid extends State<Grid> {
   }
 
   Widget lists(DocumentSnapshot document){
+    if (document['tags'] == null){
+      return Text("タグが指定されていません");
+    }
     switch (document['tags'].length){
-      case 0:
-        return Text("タグが指定されていません");
-        break;
       case 1:
         return Card(child: Text(document['tags'][0]));
         break;
