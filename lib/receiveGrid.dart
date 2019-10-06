@@ -72,7 +72,7 @@ class ReceiveGrid extends StatelessWidget {
                     onTap: () {
                       Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
-                            return TestView();
+                            return TestView(document);
                           }
                       ));
                     },
