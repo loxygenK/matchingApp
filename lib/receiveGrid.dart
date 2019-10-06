@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ReceiveGrid extends StatelessWidget {
+  final borderColor = Color(0xabababff);
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
@@ -30,24 +31,30 @@ class ReceiveGrid extends StatelessWidget {
                                   child: Text("ルーム名:  ${document['room']}"),
                                 ),
                                 Container(
-                                    child: Divider()
+                                    child: Divider(color: borderColor)
                                 ),
                                 Container(
-                                  child: Text("詳細"),
+                                  child: Text("オーナー: ${document['user']}"),
                                 ),
                                 Container(
-                                  child: Text("${document['details']}"),
+                                  child: Divider(color: borderColor),
+                                ),
+                                Container(
+                                  child: Text("ひとこと"),
+                                ),
+                                Container(
+                                  child: Text("${document['intro']}"),
                                   decoration: BoxDecoration(
                                       border: Border(
-                                        top: BorderSide(width: 1.0),
-                                        left: BorderSide(width: 1.0),
-                                        right: BorderSide(width: 1.0),
-                                        bottom: BorderSide(width: 1.0),
+                                        top: BorderSide(width: 1.0, color: borderColor),
+                                        left: BorderSide(width: 1.0, color: borderColor),
+                                        right: BorderSide(width: 1.0, color: borderColor),
+                                        bottom: BorderSide(width: 1.0, color: borderColor),
                                       )
                                   ),
                                 ),
                                 Container(
-                                    child: Divider()
+                                    child: Divider(color: borderColor)
                                 ),
                                 Container(
                                   child: Text('タグ'),
