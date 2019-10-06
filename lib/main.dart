@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matching_app/receiveGrid.dart';
 import 'send.dart';
+import 'delete.dart';
 
 void main() => runApp(MyApp());
 
@@ -34,6 +35,7 @@ class HomeView extends StatelessWidget{
   }
 }
 class BaseView extends StatelessWidget{
+  var deleter = RoomDeleter();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -42,6 +44,11 @@ class BaseView extends StatelessWidget{
           child: Container(
             child: Grid(),
           ),
+        ),
+        RaisedButton(
+          onPressed: (){
+            deleter.search('hoge');
+          },
         )
       ],
     );
