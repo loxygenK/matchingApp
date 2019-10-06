@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class SendDataView extends StatefulWidget{
+class SendDataView extends StatefulWidget {
+
   @override
   _SendData createState() => _SendData();
 }
 
 class _SendData extends State<SendDataView> {
-  final roomController = new TextEditingController();
-  final nameController = new TextEditingController();
-  final detailController = new TextEditingController();
+  
+  final roomController = TextEditingController();
+  final nameController = TextEditingController();
+  final detailController = TextEditingController();
   final _mainCollection = Firestore.instance.collection("datas");
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
