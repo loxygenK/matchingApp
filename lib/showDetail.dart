@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 
 class TestView extends StatelessWidget {
+
+  DocumentSnapshot _document;
+
+  TestView(this._document);
 
   Container createInfoView(String label, Widget widget, {bool margin = true}) {
     return Container(
@@ -24,7 +30,12 @@ class TestView extends StatelessWidget {
     );
   }
 
-  List<Container> createTagsWidget(List<String> tagnames) {
+  Widget createTagsWidget(List<String> tagnames) {
+
+    if(tagnames == null){
+      return Text("タグが指定されていません");
+    }
+
     List<Container> tags = [];
     for (String tag in tagnames) {
       tags.add(new Container(
@@ -39,51 +50,64 @@ class TestView extends StatelessWidget {
       );
     }
 
-    return tags;
+    return Row(children: tags);
   }
 
   Widget build(BuildContext context) {
-    // TODO: Get the room's information from cloud server
-    String room_name = "ルームのお名前";
-    String inviter_name = "募集している人の名前";
-    String details = "スクロールができる詳細画面。";
-    List<String> tags = ["スクロール", "が", "できる", "お気に入り", "の", "タグ", "一覧"];
 
-    return Scaffold(
-        appBar: AppBar(title: Text("ルーム詳細")),
-        body: Container(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
+    return StreamBuilder(
+      stream: Firestore.instance.collection('datas').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasError) {
+          return Text("Error  ${snapshot.error}");
+        }
+        switch (snapshot.connectionState) {
+          case ConnectionState.waiting:
+            return Text("loading");
+          default:
+
+            String room_name = _document["room"];
+            String inviter_name = _document["user"];
+            String details =_document["details"];
+            List<String> tags = _document["tags"];
+
+            return Scaffold(
+              appBar: AppBar(title: Text("ルーム詳細")),
+              body: Container(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
                     createInfoView("ルーム名", Text(room_name)),
                     createInfoView("募集者名", Text(inviter_name)),
                     createInfoView(
-                        "タグ",
-                        SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(children: createTagsWidget(tags)
-                            )
-                        ),
-                        margin: false),
+                      "タグ",
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: createTagsWidget(tags)
+                      ),
+                      margin: false),
                     Expanded(
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                                border: Border.all(color: Colors.black45),
-                                borderRadius: BorderRadius.circular(3)
-                            ),
-                            child: SingleChildScrollView(
-                                child: Container(
-                                    margin: EdgeInsets.all(5),
-                                    child: Text(details)
-                                )
-                            )
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black45),
+                          borderRadius: BorderRadius.circular(3)
+                        ),
+                        child: SingleChildScrollView(
+                          child: Container(
+                            margin: EdgeInsets.all(5),
+                            child: Text(details)
+                          )
                         )
+                      )
                     ),
-                ]
-            )
-        )
+                  ]
+                )
+              )
+            );
+        }
+      }
     );
   }
 }
