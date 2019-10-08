@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:matching_app/receiveGrid.dart';
 import 'send.dart';
-import 'delete.dart';
+import 'data_manager.dart';
 
 void main() => runApp(MyApp());
 
@@ -15,6 +15,7 @@ class MyApp extends StatelessWidget {
   }
 }
 class HomeView extends StatelessWidget{
+  final dataJudge = DataManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,6 +24,13 @@ class HomeView extends StatelessWidget{
       ),
       body: BaseView(),
       floatingActionButton: FloatingActionButton(onPressed: () {
+        var judge = dataJudge.judgeRoom();
+        judge.then((judge){
+          if(judge){
+            return;
+          }
+        }
+        );
         Navigator.push(context, MaterialPageRoute(
             builder: (BuildContext context) {
               return SendDataView();
@@ -35,7 +43,6 @@ class HomeView extends StatelessWidget{
   }
 }
 class BaseView extends StatelessWidget{
-  var deleter = RoomDeleter();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -45,11 +52,7 @@ class BaseView extends StatelessWidget{
             child: Grid(),
           ),
         ),
-        RaisedButton(
-          onPressed: (){
-            deleter.search('hoge');
-          },
-        )
+        DeleteButton()
       ],
     );
   }
