@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:matching_app/receiveGrid.dart';
+import 'package:matching_app/user_status.dart';
 import 'send.dart';
 import 'delete.dart';
 
@@ -47,7 +48,12 @@ class BaseView extends StatelessWidget{
         ),
         RaisedButton(
           onPressed: (){
-            deleter.search('hoge');
+            UserRoomStatus.getCreatedRoom().then(
+              (roomName) {
+                if(roomName != null)
+                  deleter.search(roomName);
+              }
+            );
           },
         )
       ],
