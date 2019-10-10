@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:matching_app/delete.dart';
 import 'package:matching_app/receiveGrid.dart';
+import 'package:matching_app/user_status.dart';
 import 'send.dart';
 import 'data_manager.dart';
 
@@ -43,6 +45,7 @@ class HomeView extends StatelessWidget{
   }
 }
 class BaseView extends StatelessWidget{
+  var deleter = RoomDeleter();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -52,7 +55,16 @@ class BaseView extends StatelessWidget{
             child: Grid(),
           ),
         ),
-        DeleteButton()
+        RaisedButton(
+          onPressed: (){
+            UserRoomStatus.getCreatedRoom().then(
+              (roomName) {
+                if(roomName != null)
+                  deleter.search(roomName);
+              }
+            );
+          },
+        )
       ],
     );
   }
