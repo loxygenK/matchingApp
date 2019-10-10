@@ -24,13 +24,6 @@ class HomeView extends StatelessWidget{
       ),
       body: BaseView(),
       floatingActionButton: FloatingActionButton(onPressed: () {
-        var judge = dataJudge.judgeRoom();
-        judge.then((judge){
-          if(judge){
-            return;
-          }
-        }
-        );
         Navigator.push(context, MaterialPageRoute(
             builder: (BuildContext context) {
               return SendDataView();
@@ -52,7 +45,6 @@ class BaseView extends StatelessWidget{
             child: Grid(),
           ),
         ),
-        DeleteButton()
       ],
     );
   }

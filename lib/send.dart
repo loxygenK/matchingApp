@@ -7,6 +7,7 @@ class SendDataView extends StatefulWidget{
 }
 
 class _SendData extends State<SendDataView> {
+  var tags = [];
   final roomController = new TextEditingController();
   final nameController = new TextEditingController();
   final detailController = new TextEditingController();
@@ -41,7 +42,10 @@ class _SendData extends State<SendDataView> {
               maxLength: 10,
                 controller: nameController,
             ),
-          )
+          ),
+          Text("タグ"),
+          Container(child:tagList(context))
+
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -67,9 +71,11 @@ class _SendData extends State<SendDataView> {
               _mainCollection.add({
                 'room': roomController.text,
                 'details': detailController.text,
-                'user': nameController.text
+                'user': nameController.text,
+                'tags': tags
               }
               );
+              tags = [];
             }
             Navigator.pop(context);
 
@@ -85,5 +91,58 @@ class _SendData extends State<SendDataView> {
     nameController.dispose();
     detailController.dispose();
     super.dispose();
+  }
+  Widget tagList(BuildContext context){
+    return StreamBuilder(
+      stream: Firestore.instance.collection('tags').snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot){
+        if (snapshot.hasError){
+          return Text("Error ${snapshot.error}");
+        }
+        switch (snapshot.connectionState){
+          case ConnectionState.waiting:
+            return Text("loading");
+          default:
+            return new ListView(
+                shrinkWrap: true,
+              children: snapshot.data.documents.map((
+                  DocumentSnapshot document) {
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int i){
+                    return GestureDetector(
+                    child: Card(child:Text(document['tagList'][i],
+                    )),
+                    onTap: (){
+                      bool on = true;
+                      print(document['tagList']);
+                      try {
+                        for (String tag in tags) {
+                          if (document['tagList'][i] == tag) {
+                            on = false;
+                            break;
+                          }
+                        }
+                        if(on) {
+                          tags.add(document['tagList'][i]);
+                        }
+                      }on NoSuchMethodError catch(e){
+                        if(on) {
+                          tags.add(document['tagList'][i]);
+                        }
+                      }
+                    },
+                    );
+                  },
+                  itemCount: document['tagList'].length,
+                );
+              }).toList(),
+
+
+            );
+        }
+    },
+    );
   }
 }
