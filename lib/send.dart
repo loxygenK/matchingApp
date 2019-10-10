@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:matching_app/user_status.dart';
 
 class SendDataView extends StatefulWidget{
   @override
@@ -70,6 +71,9 @@ class _SendData extends State<SendDataView> {
                 'user': nameController.text
               }
               );
+
+              UserRoomStatus.markAsCreatedRoom(roomController.text);
+
             }
             Navigator.pop(context);
 
