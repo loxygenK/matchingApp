@@ -16,18 +16,41 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+// ignore: must_be_immutable
 class HomeView extends StatelessWidget{
+  var deleter = RoomDeleter();
   final dataJudge = DataManager();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("マッチングアプリ(仮)"),
+        actions: <Widget>[
+          RaisedButton(
+            onPressed: (){
+              UserRoomStatus.getCreatedRoom().then(
+                      (roomName) {
+                    if(roomName != null)
+                      deleter.search(roomName);
+                  }
+              );
+            },
+            child: Text("ルームを消す"),
+            color: Colors.blue,
+            textColor: Colors.white,
+            splashColor: Colors.blue,
+          )
+        ],
       ),
       body: BaseView(),
       floatingActionButton: FloatingActionButton(onPressed: () {
         Navigator.push(context, MaterialPageRoute(
             builder: (BuildContext context) {
+              UserRoomStatus.getCreatedRoom().then(
+                  (roomName){
+                    if(roomName == null) print("null");
+                  }
+              );
               return SendDataView();
             }
         ));
@@ -37,8 +60,8 @@ class HomeView extends StatelessWidget{
     );
   }
 }
+
 class BaseView extends StatelessWidget{
-  var deleter = RoomDeleter();
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -48,16 +71,7 @@ class BaseView extends StatelessWidget{
             child: Grid(),
           ),
         ),
-        RaisedButton(
-          onPressed: (){
-            UserRoomStatus.getCreatedRoom().then(
-              (roomName) {
-                if(roomName != null)
-                  deleter.search(roomName);
-              }
-            );
-          },
-        )
+
       ],
     );
   }

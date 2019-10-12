@@ -69,6 +69,9 @@ class _SendData extends State<SendDataView> {
               );
             }
             else {
+              if(tags.length == 0){
+                tags.add("タグなし");
+              }
               _mainCollection.add({
                 'room': roomController.text,
                 'details': detailController.text,

@@ -30,7 +30,7 @@ class TestView extends StatelessWidget {
     );
   }
 
-  Widget createTagsWidget(List<String> tagnames) {
+  Widget createTagsWidget(var tagnames) {
 
     if(tagnames == null){
       return Text("タグが指定されていません");
@@ -69,7 +69,7 @@ class TestView extends StatelessWidget {
             String room_name = _document["room"];
             String inviter_name = _document["user"];
             String details =_document["details"];
-            List<String> tags = _document["tags"];
+            var tags = _document["tags"];
 
             return Scaffold(
               appBar: AppBar(title: Text("ルーム詳細")),
