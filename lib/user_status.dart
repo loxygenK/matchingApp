@@ -14,7 +14,7 @@ class UserRoomStatus{
 	static void markAsDeletedRoom() async {
 
 		SharedPreferences pref = await SharedPreferences.getInstance();
-		await pref.setBool("room_saved", true);
+		await pref.setBool("room_saved", false);
 		await pref.setString("room_name", "");
 
 	}
@@ -26,8 +26,7 @@ class UserRoomStatus{
 
 		if(pref.containsKey("room_saved") && pref.getBool("room_saved")){
 			room_name = pref.getString("room_name");
-		}
-
+		}else return null;
 		return room_name;
 
 	}

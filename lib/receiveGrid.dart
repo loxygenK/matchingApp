@@ -94,7 +94,7 @@ class ReceiveGrid extends StatelessWidget {
       case 2:
         return Card(child: Row(
           children: <Widget>[
-            Text(document['tags'][0]),
+            Text(document['tags'][0] + " "),
             Text(document['tags'][1]),
           ],
         ),);
@@ -102,8 +102,8 @@ class ReceiveGrid extends StatelessWidget {
       case 3:
         return Card(child: Row(
           children: <Widget>[
-            Text(document['tags'][0]),
-            Text(document['tags'][1]),
+            Text(document['tags'][0] + " "),
+            Text(document['tags'][1] + " "),
             Text(document['tags'][2])
           ],
         ),);
@@ -111,8 +111,8 @@ class ReceiveGrid extends StatelessWidget {
       default:
         return Card(child: Row(
           children: <Widget>[
-            Text(document['tags'][0]),
-            Text(document['tags'][1]),
+            Text(document['tags'][0] + " "),
+            Text(document['tags'][1] + " "),
             Text("+" + (document['tags'].length - 2).toString())
           ],
         ),);
