@@ -20,34 +20,31 @@ class _SendData extends State<SendDataView> {
       appBar: AppBar(
         title: Text("ルーム作成"),
       ),
-      body: Column(
+      body: Container(
+        child: SingleChildScrollView(
+        child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text("ルーム名"),
-          Expanded(
-            child:TextField(
+          TextField(
             controller: roomController,
             maxLength: 10,
           ),
-          ),
           Text("詳細"),
-          Expanded(
-            child: TextField(
+          TextField(
               maxLength: 20,
               controller: detailController,
-            ),
           ),
-          Text("ユーザー名"),
-          Expanded(
-            child: TextField(
+          Text("ユーザー名"),TextField(
               maxLength: 10,
                 controller: nameController,
             ),
-          ),
           Text("タグ"),
           Container(child:tagList(context))
 
         ],
+      )
+    ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async{
