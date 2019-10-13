@@ -22,29 +22,28 @@ class _SendData extends State<SendDataView> {
       ),
       body: Container(
         child: SingleChildScrollView(
-        child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          Text("ルーム名"),
-          TextField(
-            controller: roomController,
-            maxLength: 10,
-          ),
-          Text("詳細"),
-          TextField(
-              maxLength: 20,
-              controller: detailController,
-          ),
-          Text("ユーザー名"),TextField(
-              maxLength: 10,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text("ルーム名"),
+              TextField(
+                controller: roomController,
+                maxLength: 10,
+              ),
+              Text("詳細"),
+              TextField(
+                maxLength: 20,
+                controller: detailController,
+              ),
+              Text("ユーザー名"),TextField(
+                maxLength: 10,
                 controller: nameController,
-            ),
-          Text("タグ"),
-          Container(child:tagList(context))
-
-        ],
-      )
-    ),
+              ),
+              Text("タグ"),
+              Container(child:tagList(context))
+            ],
+          )
+        ),
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () async{
